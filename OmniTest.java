@@ -103,13 +103,13 @@ public class OmniTest extends LinearOpMode {
             double yaw     =  gamepad1.right_stick_x * 1.1;
             double lateralx = lateral * Math.cos(-botHeading) - axial * Math.sin(-botHeading);
             double axialy = lateral * Math.sin(-botHeading) + axial * Math.cos(-botHeading);
-
-
+            double speed = 0.75
             double denominator = Math.max(Math.abs(axialy) + Math.abs(lateralx) + Math.abs(yaw), 1);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            /*
+            /*                              double leftInches, double rightInches,
+                              double timeoutS) {
             double leftFrontPower  = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower   = axial - lateral + yaw;
@@ -132,10 +132,10 @@ public class OmniTest extends LinearOpMode {
             }
             
             if (gamepad2.right_trigger > 0){
-                slider.setTargetPosition(-4520);
+                slider.setTargetPosition(-4600);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = -gamepad2.right_trigger;
-                armm.setTargetPosition(-10000);
+                armm.setTargetPosition(-7610);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = -gamepad2.right_trigger;
             }
@@ -143,12 +143,12 @@ public class OmniTest extends LinearOpMode {
                 slider.setTargetPosition(0);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = gamepad2.left_trigger;
-                armm.setTargetPosition(-1762);
+                armm.setTargetPosition(0);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = gamepad2.left_trigger - 0.15;
             }
             else if (gamepad2.left_stick_y < -0.05){
-                slider.setTargetPosition(-4520);
+                slider.setTargetPosition(-4600);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.left_stick_y >= 0.05){
@@ -156,11 +156,11 @@ public class OmniTest extends LinearOpMode {
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y < -0.05){
-                armm.setTargetPosition(-10000);
+                armm.setTargetPosition(-7610);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y >= 0.05){
-                armm.setTargetPosition(-1770);
+                armm.setTargetPosition(0);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else{
@@ -179,14 +179,18 @@ public class OmniTest extends LinearOpMode {
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
 
-            if (max > 1.0) {
+            if (gamepad1.right_bumper){
+                if (speed == med then speed = fast else if speed == fast then speed = slow, else if speed == slow then speed = med )
+            }
+
+            if (max > 0.50) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
             }
             
-            else if (gamepad2.right_bumper){
+            if (gamepad2.right_bumper){
                 graby.setPosition(0.42);
                 
             }
@@ -207,7 +211,8 @@ public class OmniTest extends LinearOpMode {
             // Uncomment the following code to test your motor directions.
             // Each button should make the corresponding motor run FORWARD.
             //   1) First get all the motors to take to correct positions on the robot
-            //      by adjusting your Robot Configuration if necessary.
+            //                                   double leftInches, double rightInches,
+            //                  double timeoutS) { by adjusting your Robot Configuration if necessary.
             //   2) Then make sure they run in the correct direction by modifying the
             //      the setDirection() calls above.
             // Once the correct motors move in the correct direction re-comment this code.

@@ -133,24 +133,26 @@
                            //backL.getCurrentPosition(),
                            //frontR.getCurrentPosition(),
                            //backR.getCurrentPosition();
-         telemetry.addData("Starting at front left/Right", "%4.2f, %4.2f", frontL.getCurrentPosition(), frontR.getCurrentPosition() );
-         telemetry.addData("Starting at back  left/Right", "%4.2f, %4.2f", backL.getCurrentPosition(), backR.getCurrentPosition() );
- 
-         telemetry.update();
+        //  telemetry.addData("Starting at front left/Right", "%4.2f, %4.2f", frontL.getCurrentPosition(), frontR.getCurrent            telemetry.addData("slide", slider.getCurrentPosition());
+         telemetry.addData("arm", armm.getCurrentPosition());
+         telemetry.addData("slider", slider.getCurrentPosition());
+        //  telemetry.addData("Starting at back  left/Right", "%4.2f, %4.2f", backL.getCurrentPosition(), backR.getCurrentPosition() );
+
+        telemetry.update();
 
          // Wait for the game to start (driver presses START)
          waitForStart();
  
          // Step through each leg of the path,
          // Note: Reverse movement is obtained by setting a negative distance (not speed)
-         encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-         encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-         encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+         // encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
+         // encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+         // encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
  
-         telemetry.addData("Path", "Complete");
-         telemetry.update();
+         //telemetry.addData("Path", "Complete");
+         //telemetry.update();
          sleep(1000);  // pause to display final telemetry message.
-     }
+     
  
      /*
       *  Method to perform a relative move, based on encoder counts.
@@ -160,9 +162,9 @@
       *  2) Move runs out of time
       *  3) Driver stops the OpMode running.
       */
-     public void encoderDrive(double speed,
-                              double leftInches, double rightInches,
-                              double timeoutS) {
+//     public void encoderDrive(double speed,
+//                              double leftInches, double rightInches,
+//                              double timeoutS) {
          int newLeftTarget;
          int newRightTarget;
  
@@ -170,26 +172,29 @@
          if (opModeIsActive()) {
  
              // Determine new target position, and pass to motor controller
-             newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-             newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-             leftDrive.setTargetPosition(newLeftTarget);
-             rightDrive.setTargetPosition(newRightTarget);
+             //newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+             //newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+             //leftDrive.setTargetPosition(newLeftTarget);
+             //rightDrive.setTargetPosition(newRightTarget);
 
              armm.setTargetPosition(-1762);
              armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
              armm.setPower(100);
 
              slider.setTargetPosition(-1831);
-             slider.setMode(DcMotor.RUN_TO_POSITION);
-             slider.setPower(100);
+             slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             slider.setPower(50);
              // Turn On RUN_TO_POSITION
-             leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             //leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             //rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             sleep(1100);
+             armm.setPower(0);
+             slider.setPower(0);
  
              // reset the timeout time and start motion.
-             runtime.reset();
-             leftDrive.setPower(Math.abs(speed));
-             rightDrive.setPower(Math.abs(speed));
+             //runtime.reset();
+             //leftDrive.setPower(Math.abs(speed));
+             //rightDrive.setPower(Math.abs(speed));
  
              // keep looping while we are still active, and there is time left, and both motors are running.
              // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -197,27 +202,29 @@
              // always end the motion as soon as possible.
              // However, if you require that BOTH motors have finished their moves before the robot continues
              // onto the next step, use (isBusy() || isBusy()) in the loop test.
-             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (leftDrive.isBusy() && rightDrive.isBusy())) {
+             //while (opModeIsActive() &&
+                    //(runtime.seconds() < timeoutS) &&
+                    //(leftDrive.isBusy() && rightDrive.isBusy())) {
  
                  // Display it for the driver.
-                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
-                 telemetry.addData("front left/Right", "%4.2f, %4.2f", frontL.getCurrentPosition(), frontR.getCurrentPosition());
-                 telemetry.addData("back  left/Right", "%4.2f, %4.2f", backL.getCurrentPosition(), backR.getCurrentPosition());
-                 telemetry.update();
-             }
+                 //telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
+                 //telemetry.addData("front left/Right", "%4.2f, %4.2f", frontL.getCurrentPosition(), frontR.getCurrentPosition());
+                 //telemetry.addData("back  left/Right", "%4.2f, %4.2f", backL.getCurrentPosition(), backR.getCurrentPosition());
+                 //telemetry.addData("slide", slider.getCurrentPosition());
+                 //telemetry.addData("arm", armm.getCurrentPosition());
+                 //telemetry.update();
+             
  
              // Stop all motion;
-             leftDrive.setPower(0);
-             rightDrive.setPower(0);
+             //leftDrive.setPower(0);
+             //rightDrive.setPower(0);
  
              // Turn off RUN_TO_POSITION
-             leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-             rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             //leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             //rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
  
              sleep(250);   // optional pause after each move.
          }
-     }
- }
+//     }
+}}
  
