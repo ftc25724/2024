@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -27,6 +26,7 @@ public class OmniTest extends LinearOpMode {
     private DcMotor slider = null;
     private DcMotor armm = null;
     private Servo graby = null;
+    private Servo wrist = null;
     @Override
     public void runOpMode() {
 
@@ -39,6 +39,7 @@ public class OmniTest extends LinearOpMode {
         slider = hardwareMap.get(DcMotor.class, "slide");
         armm = hardwareMap.get(DcMotor.class, "arm");
         graby = hardwareMap.get(Servo.class, "grab");
+        wrist = hardwareMap.get(Servo.class, "wrist");
         IMU imu = hardwareMap.get(IMU.class, "imu");
         
         int armposition = 0;
@@ -58,11 +59,8 @@ public class OmniTest extends LinearOpMode {
         
         //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-
         //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-
         //.initialize(new IMU.Parameters(orientationOnRobot));
-
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -91,11 +89,15 @@ public class OmniTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-
+        final int FAST = 100;
+        final int MED = 75;
+        final int SLOW = 50;
+        int varspeed = 75;
+        int SPEED = varspeed;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            double max = 0;
+            
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);            
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
@@ -103,32 +105,31 @@ public class OmniTest extends LinearOpMode {
             double yaw     =  gamepad1.right_stick_x * 1.1;
             double lateralx = lateral * Math.cos(-botHeading) - axial * Math.sin(-botHeading);
             double axialy = lateral * Math.sin(-botHeading) + axial * Math.cos(-botHeading);
-            double speed = 0.75
             double denominator = Math.max(Math.abs(axialy) + Math.abs(lateralx) + Math.abs(yaw), 1);
-
+            
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             /*                              double leftInches, double rightInches,
-                              double timeoutS) {
-            double leftFrontPower  = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
-            */
-            
-            double leftFrontPower = (axialy + lateralx + yaw) / denominator;
-            double leftBackPower = (axialy - lateralx + yaw) / denominator;
-            double rightFrontPower = (axialy - lateralx - yaw) / denominator;
-            double rightBackPower = (axialy + lateralx - yaw) / denominator;
-            
-            lateralx = lateralx * 1.1;
-
-            
-            double sliderPower = gamepad2.left_stick_y;
-            double armPower = gamepad2.right_stick_y;
-            
-            if (gamepad1.options) {
-                imu.resetYaw();
+            double timeoutS) {
+                double leftFrontPower  = axial + lateral + yaw;
+                double rightFrontPower = axial - lateral - yaw;
+                double leftBackPower   = axial - lateral + yaw;
+                double rightBackPower  = axial + lateral - yaw;
+                */
+                
+                double leftFrontPower = (axialy + lateralx + yaw) / denominator;
+                double leftBackPower = (axialy - lateralx + yaw) / denominator;
+                double rightFrontPower = (axialy - lateralx - yaw) / denominator;
+                double rightBackPower = (axialy + lateralx - yaw) / denominator;
+                
+                lateralx = lateralx * 1.1;
+                
+                
+                double sliderPower = gamepad2.left_stick_y;
+                double armPower = gamepad2.right_stick_y;
+                
+                if (gamepad1.options) {
+                    imu.resetYaw();
             }
             
             if (gamepad2.right_trigger > 0){
@@ -168,22 +169,99 @@ public class OmniTest extends LinearOpMode {
                 sliderPower = 0;
                 
             }
+        
+            /*
+            if (gamepad1.right_stick_button){
+                if (SPEED == SPEED){
+                    varspeed = MED;
+                }
+                else if (varspeed == FAST){
+                    varspeed = MED;
+                }
+                else if (varspeed == MED){
+                    varspeed = SLOW;
+                }
+                else if (varspeed == SLOW){
+                    varspeed = SLOW;
+                }
+            }
+            */
             
+            if (gamepad1.right_stick_button) {
+                switch (SPEED *= 100) {
+                    case 100:
+                        varspeed = MED;
+                        break;
+                    
+                    case 75:
+                        varspeed = SLOW;
+                        break;
+
+                    case 50:
+                        varspeed = SLOW;
+                        break;
+                
+                    default:
+                        varspeed = MED;
+                        break;
+                }
+            }
             
+            /*
+            if (gamepad1.left_stick_button){
+                if (SPEED == SPEED){
+                    varspeed = MED;
+                }
+                else if (varspeed == SLOW){
+                    varspeed = MED;
+                }
+                else if (varspeed == MED){
+                    varspeed = FAST;
+                }
+                else if (varspeed == FAST){
+                    varspeed = FAST;
+                }
+            }
+            */
+            /*
+            if (gamepad1.left_stick_button) {
+                switch (SPEED) {
+                    case SLOW:
+                        varspeed = MED;
+                        break;
+
+                    case MED:
+                        varspeed = FAST;
+                        break;
+
+                    case FAST:
+                        varspeed = FAST;
+                        break;
+                
+                    default:
+                        varspeed = MED;
+                        break;
+                }
+            }
+            */
+            SPEED = varspeed /= 100;
+
+            leftBackPower *= SPEED; 
+            leftFrontPower *= SPEED; 
+            rightBackPower *= SPEED; 
+            rightFrontPower *= SPEED; 
             
             //1860
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
+            double max = 0;
             max = Math.max(max, Math.abs(leftFrontPower));
             max = Math.max(max, Math.abs(rightFrontPower));
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
-
-            if (gamepad1.right_bumper){
-                if (speed == med then speed = fast else if speed == fast then speed = slow, else if speed == slow then speed = med )
-            }
-
-            if (max > 0.50) {
+            
+            
+            if (max > 1.0) {
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
