@@ -55,6 +55,7 @@ public class OmniTest extends LinearOpMode {
         backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
         graby.setPosition(0);
+        wrist.
         
         
         //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
