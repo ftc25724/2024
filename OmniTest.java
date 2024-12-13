@@ -55,7 +55,7 @@ public class OmniTest extends LinearOpMode {
         backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
         graby.setPosition(0);
-        wrist.
+        wrist.setPosition(0);
         
         
         //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -271,7 +271,6 @@ public class OmniTest extends LinearOpMode {
             
             if (gamepad2.right_bumper){
                 graby.setPosition(0.42);
-                
             }
             /*
             else if (gamepad2.x){
@@ -281,9 +280,14 @@ public class OmniTest extends LinearOpMode {
             */
             else if (gamepad2.left_bumper){
                 graby.setPosition(0.30);
-                
             }
 
+            if (gamepad1.right_bumper) {
+                wrist.setPosition(0.42);
+            }
+            else if (gamepad1.left_bumper) {
+                wrist.setPosition(0);
+            }
 
             // This is test code:
             //
