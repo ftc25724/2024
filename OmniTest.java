@@ -93,8 +93,8 @@ public class OmniTest extends LinearOpMode {
         final int FAST = 100;
         final int MED = 75;
         final int SLOW = 50;
-        int varspeed = 75;
-        int SPEED = varspeed;
+        // int varspeed = 75;
+        // int SPEED = varspeed;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -134,7 +134,7 @@ public class OmniTest extends LinearOpMode {
             }
             
             if (gamepad2.right_trigger > 0){
-                slider.setTargetPosition(-4600);
+                slider.setTargetPosition(-5494);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = -gamepad2.right_trigger;
                 armm.setTargetPosition(-7610);
@@ -142,7 +142,7 @@ public class OmniTest extends LinearOpMode {
                 armPower = -gamepad2.right_trigger;
             }
             else if (gamepad2.left_trigger > 0){
-                slider.setTargetPosition(0);
+                slider.setTargetPosition(-544);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = gamepad2.left_trigger;
                 armm.setTargetPosition(0);
@@ -150,11 +150,11 @@ public class OmniTest extends LinearOpMode {
                 armPower = gamepad2.left_trigger - 0.15;
             }
             else if (gamepad2.left_stick_y < -0.05){
-                slider.setTargetPosition(-4600);
+                slider.setTargetPosition(-5494);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.left_stick_y >= 0.05){
-                slider.setTargetPosition(0);
+                slider.setTargetPosition(-544);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y < -0.05){
@@ -170,91 +170,92 @@ public class OmniTest extends LinearOpMode {
                 sliderPower = 0;
                 
             }
-        
+            
             /*
             if (gamepad1.right_stick_button){
                 if (SPEED == SPEED){
                     varspeed = MED;
                 }
-                else if (varspeed == FAST){
+                else if (SPEED == FAST){
                     varspeed = MED;
                 }
-                else if (varspeed == MED){
+                else if (SPEED == MED){
                     varspeed = SLOW;
                 }
-                else if (varspeed == SLOW){
+                else if (SPEED == SLOW){
                     varspeed = SLOW;
                 }
             }
-            */
             
-            if (gamepad1.right_stick_button) {
-                switch (SPEED *= 100) {
-                    case 100:
-                        varspeed = MED;
-                        break;
+            
+            // if (gamepad1.right_stick_button) {
+            //     switch (SPEED *= 100) {
+            //         case 100:
+            //             varspeed = MED;
+            //             break;
                     
-                    case 75:
-                        varspeed = SLOW;
-                        break;
+            //         case 75:
+            //             varspeed = SLOW;
+            //             break;
 
-                    case 50:
-                        varspeed = SLOW;
-                        break;
+            //         case 50:
+            //             varspeed = SLOW;
+            //             break;
                 
-                    default:
-                        varspeed = MED;
-                        break;
-                }
-            }
+            //         default:
+            //             varspeed = MED;
+            //             break;
+            //     }
+            // }
             
-            /*
+            
             if (gamepad1.left_stick_button){
                 if (SPEED == SPEED){
                     varspeed = MED;
                 }
-                else if (varspeed == SLOW){
+                else if (SPEED == SLOW){
                     varspeed = MED;
                 }
-                else if (varspeed == MED){
+                else if (SPEED == MED){
                     varspeed = FAST;
                 }
-                else if (varspeed == FAST){
+                else if (SPEED == FAST){
                     varspeed = FAST;
                 }
             }
-            */
-            /*
-            if (gamepad1.left_stick_button) {
-                switch (SPEED) {
-                    case SLOW:
-                        varspeed = MED;
-                        break;
+            
+            
+            // if (gamepad1.left_stick_button) {
+            //     switch (SPEED *= 100) {
+            //         case 50:
+            //             varspeed = MED;
+            //             break;
 
-                    case MED:
-                        varspeed = FAST;
-                        break;
+            //         case 75:
+            //             varspeed = FAST;
+            //             break;
 
-                    case FAST:
-                        varspeed = FAST;
-                        break;
+            //         case 100:
+            //             varspeed = FAST;
+            //             break;
                 
-                    default:
-                        varspeed = MED;
-                        break;
-                }
-            }
-            */
+            //         default:
+            //             varspeed = MED;
+            //             break;
+            //     }
+            // }
+            
             SPEED = varspeed /= 100;
 
-            leftBackPower *= SPEED; 
-            leftFrontPower *= SPEED; 
-            rightBackPower *= SPEED; 
-            rightFrontPower *= SPEED; 
+            // leftBackPower *= SPEED; 
+            // leftFrontPower *= SPEED; 
+            // rightBackPower *= SPEED; 
+            // rightFrontPower *= SPEED; 
+            */
             
             //1860
             // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
+            // This ensures that the robot maintains the desired motigrabyon.
             double max = 0;
             max = Math.max(max, Math.abs(leftFrontPower));
             max = Math.max(max, Math.abs(rightFrontPower));
@@ -270,7 +271,7 @@ public class OmniTest extends LinearOpMode {
             }
             
             if (gamepad2.right_bumper){
-                graby.setPosition(0.42);
+                graby.setPosition(0.30);
             }
             /*
             else if (gamepad2.x){
@@ -279,11 +280,11 @@ public class OmniTest extends LinearOpMode {
             }
             */
             else if (gamepad2.left_bumper){
-                graby.setPosition(0.30);
+                graby.setPosition(0.10);
             }
-
+    
             if (gamepad1.right_bumper) {
-                wrist.setPosition(0.42);
+                wrist.setPosition(0.30);
             }
             else if (gamepad1.left_bumper) {
                 wrist.setPosition(0);
@@ -315,6 +316,7 @@ public class OmniTest extends LinearOpMode {
             telemetry.addData("slide", slider.getCurrentPosition());
             telemetry.addData("arm", armm.getCurrentPosition());
             telemetry.addData("grab", graby.getPosition());
+            telemetry.addData("wrist", wrist.getPosition());
             telemetry.addData("Axial  ", "%4.2f", axial);
             telemetry.addData("lateral  ", "%4.2f", lateral);
             telemetry.addData("yaw  ", "%4.2f", yaw);
@@ -322,6 +324,7 @@ public class OmniTest extends LinearOpMode {
             telemetry.addData("out  ", "%4.2f", gamepad2.left_stick_y);
             telemetry.addData("rt", gamepad2.right_trigger);
             telemetry.addData("lt", gamepad2.left_trigger);
+            // telemetry.addData("speed", varspeed);
             telemetry.update();
         }
     }}
