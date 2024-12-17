@@ -140,21 +140,24 @@ public class OmniTest extends LinearOpMode {
                 armm.setTargetPosition(-7610);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = -gamepad2.right_trigger;
+                wrist.setPosition(0.30);
             }
             else if (gamepad2.left_trigger > 0){
-                slider.setTargetPosition(-544);
+                slider.setTargetPosition(-268);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = gamepad2.left_trigger;
                 armm.setTargetPosition(0);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = gamepad2.left_trigger - 0.15;
+                wrist.setPosition(0);
+                graby.setPosition(0);
             }
             else if (gamepad2.left_stick_y < -0.05){
                 slider.setTargetPosition(-5494);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.left_stick_y >= 0.05){
-                slider.setTargetPosition(-544);
+                slider.setTargetPosition(-268);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y < -0.05){
@@ -283,12 +286,12 @@ public class OmniTest extends LinearOpMode {
                 graby.setPosition(0.10);
             }
     
-            if (gamepad1.right_bumper) {
-                wrist.setPosition(0.30);
-            }
-            else if (gamepad1.left_bumper) {
-                wrist.setPosition(0);
-            }
+            // if (gamepad1.right_bumper) {
+            //     wrist.setPosition(0.30);
+            // }
+            // else if (gamepad1.left_bumper) {
+            //     wrist.setPosition(0);
+            // }
 
             // This is test code:
             //
