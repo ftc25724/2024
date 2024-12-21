@@ -25,6 +25,7 @@ public class OmniTest extends LinearOpMode {
     private DcMotor backR = null;
     private DcMotor slider = null;
     private DcMotor armm = null;
+    private DcMotor lifty = null;
     private Servo graby = null;
     private Servo wrist = null;
     @Override
@@ -38,6 +39,7 @@ public class OmniTest extends LinearOpMode {
         backR = hardwareMap.get(DcMotor.class, "brm");
         slider = hardwareMap.get(DcMotor.class, "slide");
         armm = hardwareMap.get(DcMotor.class, "arm");
+        lifty = hardwareMap.get(DcMotor.class, "lift");
         graby = hardwareMap.get(Servo.class, "grab");
         wrist = hardwareMap.get(Servo.class, "wrist");
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -48,6 +50,9 @@ public class OmniTest extends LinearOpMode {
         slider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         
         frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -149,7 +154,7 @@ public class OmniTest extends LinearOpMode {
                 armm.setTargetPosition(0);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = gamepad2.left_trigger - 0.15;
-                wrist.setPosition(0);
+                wrist.setPosition(0.01);
                 graby.setPosition(0);
             }
             else if (gamepad2.left_stick_y < -0.05){
@@ -173,6 +178,21 @@ public class OmniTest extends LinearOpMode {
                 sliderPower = 0;
                 
             }
+
+            // 5262.5
+
+            // if (slidermax) {
+                
+            // }
+
+            // slidermax = 5294/Math.cos(armm.getCurrentPosition);
+
+            /*
+             *         MEASUREMENTS
+             * graund to axel: 10 3/8
+             * back of bot to axel: 3 3/4
+             * cliks per inch: -315
+             */
             
             /*
             if (gamepad1.right_stick_button){
@@ -286,12 +306,31 @@ public class OmniTest extends LinearOpMode {
                 graby.setPosition(0.10);
             }
     
-            // if (gamepad1.right_bumper) {
-            //     wrist.setPosition(0.30);
-            // }
-            // else if (gamepad1.left_bumper) {
-            //     wrist.setPosition(0);
-            // }
+            if (gamepad2.dpad_up) {
+                wrist.setPosition(0.3);
+            }
+            else if (gamepad2.dpad_right) {
+                wrist.setPosition(0.15);
+            }
+            else if (gamepad2.dpad_down) {
+                wrist.setPosition(0.05);
+            }
+
+            if (gamepad1.dpad_up) {
+                lifty.setTargetPosition(24276);
+                lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+            else if (gamepad1.dpad_down) {
+                lifty.setTargetPosition(0);
+                lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if (lifty.getCurrentPosition() < lifty.getTargetPosition()) {
+                lifty.setPower(100);
+            }
+            else{
+                lifty.setPower(0);
+            }
 
             // This is test code:
             //
@@ -318,6 +357,7 @@ public class OmniTest extends LinearOpMode {
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("slide", slider.getCurrentPosition());
             telemetry.addData("arm", armm.getCurrentPosition());
+            telemetry.addData("lift", lifty.getCurrentPosition());
             telemetry.addData("grab", graby.getPosition());
             telemetry.addData("wrist", wrist.getPosition());
             telemetry.addData("Axial  ", "%4.2f", axial);
