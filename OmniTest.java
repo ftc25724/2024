@@ -154,7 +154,7 @@ public class OmniTest extends LinearOpMode {
                 armm.setTargetPosition(0);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = gamepad2.left_trigger - 0.15;
-                wrist.setPosition(0.01);
+                wrist.setPosition(0.05);
                 graby.setPosition(0);
             }
             else if (gamepad2.left_stick_y < -0.05){
@@ -190,7 +190,7 @@ public class OmniTest extends LinearOpMode {
             /*
              *         MEASUREMENTS
              * graund to axel: 10 3/8
-             * back of bot to axel: 3 3/4
+             * back of bot to axel: ?
              * cliks per inch: -315
              */
             
@@ -294,9 +294,10 @@ public class OmniTest extends LinearOpMode {
             }
             
             if (gamepad2.right_bumper){
-                graby.setPosition(0.30);
+                graby.setPosition(0.35);
             }
-            /*
+            /*    }}
+    
             else if (gamepad2.x){
                 graby.setPosition(0);
                 
@@ -317,21 +318,27 @@ public class OmniTest extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-                lifty.setTargetPosition(24276);
+                lifty.setTargetPosition(22500);
                 lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
-            else if (gamepad1.dpad_down) {
+            else if (gamepad1.dpad_right) {
                 lifty.setTargetPosition(0);
                 lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+            else if (gamepad1.dpad_down) {
+                lifty.setTargetPosition(12000);
+                lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
 
-            if (lifty.getCurrentPosition() < lifty.getTargetPosition()) {
+            if (lifty.getCurrentPosition() < (lifty.getTargetPosition() - 5)) {
                 lifty.setPower(100);
+            }
+            else if (lifty.getCurrentPosition() > (lifty.getTargetPosition() + 5)){
+                lifty.setPower(-100);
             }
             else{
                 lifty.setPower(0);
             }
-
             // This is test code:
             //
             // Uncomment the following code to test your motor directions.
