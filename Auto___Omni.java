@@ -90,7 +90,7 @@ import java.util.concurrent.TimeUnit;
 public class Auto___Omni extends LinearOpMode
 {
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 12.0; //  this is how close the camera should get to the target (inches)
+    // final double DESIRED_DISTANCE = 12.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -103,20 +103,21 @@ public class Auto___Omni extends LinearOpMode
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the strafing speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
 
-    private DcMotor leftFrontDrive   = null;  //  Used to control the left front drive wheel
-    private DcMotor rightFrontDrive  = null;  //  Used to control the right front drive wheel
-    private DcMotor leftBackDrive    = null;  //  Used to control the left back drive wheel
-    private DcMotor rightBackDrive   = null;  //  Used to control the right back drive wheel
+    private DcMotor frontL = null;  //  Used to control the left front drive wheel   !
+    private DcMotor frontR = null;   //  Used to control the right front drive wheel !
+    private DcMotor backL = null;  //  Used to control the left back drive wheel     !
+    private DcMotor backR = null;   //  Used to control the right back drive wheel   !
+    
 
-    private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
-    private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
-    private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
+    // private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
+    // private static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    // private VisionPortal visionPortal;               // Used to manage the video source.
+    // private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
+    // private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
     @Override public void runOpMode()
     {
-        boolean targetFound     = false;    // Set to true when an AprilTag target is detected
+        // boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1)
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
