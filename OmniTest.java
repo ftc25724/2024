@@ -58,10 +58,7 @@ public class OmniTest extends LinearOpMode {
         backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        
-        graby.setPosition(0);
-        wrist.setPosition(0);
-        
+                
         
         //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -101,6 +98,8 @@ public class OmniTest extends LinearOpMode {
         // int varspeed = 75;
         // int SPEED = varspeed;
 
+        
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             
@@ -137,6 +136,12 @@ public class OmniTest extends LinearOpMode {
                 if (gamepad1.options) {
                     imu.resetYaw();
             }
+
+            // if (lifty.getCurrentPosition() >= 0){
+            //     sleep(90000);
+            //     lifty.setTargetPosition(22500);
+            //     lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // }
             
             if (gamepad2.right_trigger > 0){
                 slider.setTargetPosition(-5494);
@@ -178,8 +183,6 @@ public class OmniTest extends LinearOpMode {
                 sliderPower = 0;
                 
             }
-
-            // 5262.5
 
             // if (slidermax) {
                 
