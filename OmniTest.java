@@ -104,7 +104,7 @@ public class OmniTest extends LinearOpMode {
         // int varspeed = 75;
         // int SPEED = varspeed;
 
-        
+        int slidermax = -5210;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -150,7 +150,7 @@ public class OmniTest extends LinearOpMode {
             // }
             
             if (gamepad2.right_trigger > 0){
-                slider.setTargetPosition(-5494);
+                slider.setTargetPosition(slidermax);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = -gamepad2.right_trigger;
                 armm.setTargetPosition(-7610);
@@ -162,14 +162,14 @@ public class OmniTest extends LinearOpMode {
                 slider.setTargetPosition(-268);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = gamepad2.left_trigger;
-                armm.setTargetPosition(0);
+                armm.setTargetPosition(-90);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = gamepad2.left_trigger - 0.15;
-                wrist.setPosition(0.05);
+                wrist.setPosition(0);
                 graby.setPosition(0);
             }
             else if (gamepad2.left_stick_y < -0.05){
-                slider.setTargetPosition(-5494);
+                slider.setTargetPosition(slidermax);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.left_stick_y >= 0.05){
@@ -181,13 +181,20 @@ public class OmniTest extends LinearOpMode {
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y >= 0.05){
-                armm.setTargetPosition(0);
+                armm.setTargetPosition(-90);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else{
                 armPower = 0;
                 sliderPower = 0;
                 
+            }
+            
+            if (armm.getCurrentPosition() <= -7610) {
+                slidermax = -5494;
+            }
+            else if (armm.getCurrentPosition() > -7610) {
+                slidermax = -5210;
             }
 
             // if (slidermax) {
@@ -323,18 +330,18 @@ public class OmniTest extends LinearOpMode {
                 wrist.setPosition(0.15);
             }
             else if (gamepad2.dpad_down) {
-                wrist.setPosition(0.05);
+                wrist.setPosition(0);
             }
 
             if (gamepad1.dpad_up) {
-                lifty.setTargetPosition(22500);
-                lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            else if (gamepad1.dpad_right) {
-                lifty.setTargetPosition(0);
+                lifty.setTargetPosition(24500);
                 lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad1.dpad_down) {
+                lifty.setTargetPosition(0);
+                lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+            else if (gamepad1.dpad_right) {
                 lifty.setTargetPosition(12000);
                 lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
