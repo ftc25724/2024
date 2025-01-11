@@ -53,34 +53,14 @@ public class OmniTest extends LinearOpMode {
         lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        
         frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
-        
         wrist.setPosition(0);
         graby.setPosition(0);
         
-        
-                
-        
-        //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-        //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        //.initialize(new IMU.Parameters(orientationOnRobot));
-
-        // ########################################################################################
-        // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
-        // ########################################################################################
-        // Most robots need the motors on one side to be reversed to drive forward.
-        // The motor reversals shown here are for a "direct drive" robot (the wheels turn the same direction as the motor shaft)
-        // If your robot has additional gear reductions or uses a right-angled drive, it's important to ensure
-        // that your motors are turning in the correct direction.  So, start out with the reversals here, BUT
-        // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
-        // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
-        // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
         frontL.setDirection(DcMotor.Direction.REVERSE);
         backL.setDirection(DcMotor.Direction.REVERSE);
         frontR.setDirection(DcMotor.Direction.FORWARD);
@@ -101,10 +81,9 @@ public class OmniTest extends LinearOpMode {
         final int FAST = 100;
         final int MED = 75;
         final int SLOW = 50;
-        // int varspeed = 75;
-        // int SPEED = varspeed;
 
         int slidermax = -5210;
+        int armmax = -7610;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -143,17 +122,11 @@ public class OmniTest extends LinearOpMode {
                     imu.resetYaw();
             }
 
-            // if (lifty.getCurrentPosition() >= 0){
-            //     sleep(90000);
-            //     lifty.setTargetPosition(22500);
-            //     lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // }
-            
             if (gamepad2.right_trigger > 0){
                 slider.setTargetPosition(slidermax);
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 sliderPower = -gamepad2.right_trigger;
-                armm.setTargetPosition(-7610);
+                armm.setTargetPosition(armmax);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 armPower = -gamepad2.right_trigger;
                 wrist.setPosition(0.30);
@@ -177,7 +150,7 @@ public class OmniTest extends LinearOpMode {
                 slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y < -0.05){
-                armm.setTargetPosition(-7610);
+                armm.setTargetPosition(armmax);
                 armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad2.right_stick_y >= 0.05){
@@ -196,103 +169,14 @@ public class OmniTest extends LinearOpMode {
             else if (armm.getCurrentPosition() > -7610) {
                 slidermax = -5210;
             }
-
-            // if (slidermax) {
-                
-            // }
-
-            // slidermax = 5294/Math.cos(armm.getCurrentPosition);
-
-            /*
-             *         MEASUREMENTS
-             * graund to axel: 10 3/8
-             * back of bot to axel: ?
-             * cliks per inch: -315
-             */
             
-            /*
-            if (gamepad1.right_stick_button){
-                if (SPEED == SPEED){
-                    varspeed = MED;
-                }
-                else if (SPEED == FAST){
-                    varspeed = MED;
-                }
-                else if (SPEED == MED){
-                    varspeed = SLOW;
-                }
-                else if (SPEED == SLOW){
-                    varspeed = SLOW;
-                }
+            if (lifty.getCurrentPosition() > 10) {
+                armmax = -9300;
+            }
+            else if (lifty.getCurrentPosition() <= 10) {
+                armmax = -7610;
             }
             
-            
-            // if (gamepad1.right_stick_button) {
-            //     switch (SPEED *= 100) {
-            //         case 100:
-            //             varspeed = MED;
-            //             break;
-                    
-            //         case 75:
-            //             varspeed = SLOW;
-            //             break;
-
-            //         case 50:
-            //             varspeed = SLOW;
-            //             break;
-                
-            //         default:
-            //             varspeed = MED;
-            //             break;
-            //     }
-            // }
-            
-            
-            if (gamepad1.left_stick_button){
-                if (SPEED == SPEED){
-                    varspeed = MED;
-                }
-                else if (SPEED == SLOW){
-                    varspeed = MED;
-                }
-                else if (SPEED == MED){
-                    varspeed = FAST;
-                }
-                else if (SPEED == FAST){
-                    varspeed = FAST;
-                }
-            }
-            
-            
-            // if (gamepad1.left_stick_button) {
-            //     switch (SPEED *= 100) {
-            //         case 50:
-            //             varspeed = MED;
-            //             break;
-
-            //         case 75:
-            //             varspeed = FAST;
-            //             break;
-
-            //         case 100:
-            //             varspeed = FAST;
-            //             break;
-                
-            //         default:
-            //             varspeed = MED;
-            //             break;
-            //     }
-            // }
-            
-            SPEED = varspeed /= 100;
-
-            // leftBackPower *= SPEED; 
-            // leftFrontPower *= SPEED; 
-            // rightBackPower *= SPEED; 
-            // rightFrontPower *= SPEED; 
-            */
-            
-            //1860
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motigrabyon.
             double max = 0;
@@ -312,13 +196,7 @@ public class OmniTest extends LinearOpMode {
             if (gamepad2.right_bumper){
                 graby.setPosition(0.40);
             }
-            /*    }}
-    
-            else if (gamepad2.x){
-                graby.setPosition(0);
-                
-            }
-            */
+
             else if (gamepad2.left_bumper){
                 graby.setPosition(0.10);
             }
@@ -334,7 +212,7 @@ public class OmniTest extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-                lifty.setTargetPosition(24500);
+                lifty.setTargetPosition(28000);
                 lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (gamepad1.dpad_down) {
@@ -355,16 +233,20 @@ public class OmniTest extends LinearOpMode {
             else{
                 lifty.setPower(0);
             }
-            // This is test code:
-            //
-            // Uncomment the following code to test your motor directions.
-            // Each button should make the corresponding motor run FORWARD.
-            //   1) First get all the motors to take to correct positions on the robot
-            //                                   double leftInches, double rightInches,
-            //                  double timeoutS) { by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
-            //      the setDirection() calls above.
-            // Once the correct motors move in the correct direction re-comment this code.
+
+            if (gamepad1.y) {
+                lifty.setTargetPosition(2000);
+                slider.setTargetPosition(-3721);
+                lifty.setPower(100);
+                slider.setPower(25);
+            }
+            
+            if (lifty.getTargetPosition() == 2000) {
+                if (lifty.getCurrentPosition() <= 2000) {
+                    lifty.setPower(0);
+                    slider.setPower(0);    
+                }
+            }
 
             // Send calculated power to wheels
             frontL.setPower(leftFrontPower);
@@ -390,8 +272,6 @@ public class OmniTest extends LinearOpMode {
             telemetry.addData("out  ", "%4.2f", gamepad2.left_stick_y);
             telemetry.addData("rt", gamepad2.right_trigger);
             telemetry.addData("lt", gamepad2.left_trigger);
-            // telemetry.addData("speed", varspeed);
             telemetry.update();
         }
     }}
-    

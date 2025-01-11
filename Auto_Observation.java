@@ -151,6 +151,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
          // Wait for the game to start (driver presses START)
          waitForStart();
+                
  
          // Step through each leg of the path,
          // Note: Reverse movement is obtained by setting a negative distance (not speed)
@@ -186,20 +187,65 @@ import com.qualcomm.robotcore.hardware.Servo;
              //leftDrive.setTargetPosition(newLeftTarget);
              //rightDrive.setTargetPosition(newRightTarget);
 
-             armm.setTargetPosition(-1762);
-             armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             armm.setPower(100);
+             graby.setPosition(0.4);
+             sleep(500);
 
-             slider.setTargetPosition(-1831);
+             wrist.setPosition(0.30);
+             armm.setTargetPosition(-7610);
+             armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+             if (armm.getCurrentPosition() < (armm.getTargetPosition() - 5)) {
+                 armm.setPower(75);
+             }
+             else if (armm.getCurrentPosition() > (armm.getTargetPosition() + 5)){
+                 armm.setPower(-100);
+             }
+             else{
+                 armm.setPower(0);
+             }
+          
+             slider.setTargetPosition(-5494);
              slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             slider.setPower(50);
-             // Turn On RUN_TO_POSITION
-             //leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             //rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             sleep(1100);
-             armm.setPower(0);
-             slider.setPower(0);
- 
+
+             if (slider.getCurrentPosition() < (slider.getTargetPosition() - 5)) {
+                 slider.setPower(100);
+             }
+             else if (slider.getCurrentPosition() > (slider.getTargetPosition() + 5)){
+                 slider.setPower(-75);
+             }
+             else{
+                 slider.setPower(0);
+             }    
+        
+        
+             slider.setTargetPosition(0);
+             slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             wrist.setPosition(0);
+             graby.setPosition(0);
+
+             if (slider.getCurrentPosition() < (slider.getTargetPosition() - 5)) {
+                 slider.setPower(100);
+             }
+             else if (slider.getCurrentPosition() > (slider.getTargetPosition() + 5)){
+                 slider.setPower(-75);
+             }
+             else{
+                 slider.setPower(0);
+             }    
+
+             armm.setTargetPosition(0);
+             armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             
+             if (armm.getCurrentPosition() < (armm.getTargetPosition() - 5)) {
+                 armm.setPower(75);
+             }
+             else if (armm.getCurrentPosition() > (armm.getTargetPosition() + 5)){
+                 armm.setPower(-100);
+             }
+             else{
+                 armm.setPower(0);
+             }    
+
              // reset the timeout time and start motion.
              //runtime.reset();
              //leftDrive.setPower(Math.abs(speed));
