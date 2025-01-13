@@ -64,7 +64,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  
  @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
  
- public class Auto_Observation extends LinearOpMode {
+ public class Auto_Park extends LinearOpMode {
  
      /* Declare OpMode members. */
      private DcMotor frontL = null;
@@ -118,9 +118,8 @@ import com.qualcomm.robotcore.hardware.Servo;
          frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-         slider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
          slider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+         // sleep(1100);
          armm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
          armm.setMode(DcMotor.RunMode.RUN_USING_ENCODER); 
 
@@ -132,6 +131,14 @@ import com.qualcomm.robotcore.hardware.Servo;
          backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+         graby.setPosition(0);
+         wrist.setPosition(0);
+         
+         frontL.setDirection(DcMotor.Direction.REVERSE);
+         backL.setDirection(DcMotor.Direction.REVERSE);
+         frontR.setDirection(DcMotor.Direction.FORWARD);
+         backR.setDirection(DcMotor.Direction.FORWARD);
 
 
          // Send telemetry message to indicate successful Encoder reset
@@ -149,8 +156,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
          // Wait for the game to start (driver presses START)
          waitForStart();
-                
- 
          // Step through each leg of the path,
          // Note: Reverse movement is obtained by setting a negative distance (not speed)
          // encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
@@ -185,90 +190,26 @@ import com.qualcomm.robotcore.hardware.Servo;
              //leftDrive.setTargetPosition(newLeftTarget);
              //rightDrive.setTargetPosition(newRightTarget);
 
-             graby.setPosition(0.4);
-             sleep(500);
+             // Turn On RUN_TO_POSITION
+             //leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             //rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
              
-             slider.setTargetPosition(-500);
-             slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             slider.setPower(75);
-             
-             while (opModeIsActive() && (slider.isBusy())){
-             }    
-
-             wrist.setPosition(0.30);
-             armm.setTargetPosition(-4300);
-             armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-             if (armm.getCurrentPosition() > (armm.getTargetPosition() - 5)) {
-                 armm.setPower(0.75);
-             }
-             else if (armm.getCurrentPosition() < (armm.getTargetPosition() + 5)){
-                 armm.setPower(-1);
-             }
-             else{
-                 armm.setPower(0);
-             }
-             
-            while (opModeIsActive() && (armm.isBusy())){
-            }    
-          
-             slider.setTargetPosition(-5000);
-             slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-             if (slider.getCurrentPosition() > (slider.getTargetPosition() - 5)) {
-                 slider.setPower(1);
-             }
-             else if (slider.getCurrentPosition() < (slider.getTargetPosition() + 5)){
-                 slider.setPower(-0.75);
-             }
-             else{
-                 slider.setPower(0);
-             }    
-             while (opModeIsActive() && (slider.isBusy())){
-             }    
-             
-             graby.setPosition(5);
-             sleep(1000);
-             graby.setPosition(0);
-             sleep(1000);
-        
-             slider.setTargetPosition(0);
-             slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             graby.setPosition(0);
-
-             if (slider.getCurrentPosition() < (slider.getTargetPosition() - 5)) {
-                 slider.setPower(1);
-             }
-             else if (slider.getCurrentPosition() > (slider.getTargetPosition() + 5)){
-                 slider.setPower(-0.75);
-             }
-             else{
-                 slider.setPower(0);
-             }    
-             while (opModeIsActive() && (slider.isBusy())){
-             }    
-             
-             wrist.setPosition(0);
-             armm.setTargetPosition(100);
-             armm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             
-             if (armm.getCurrentPosition() < (armm.getTargetPosition() - 5)) {
-                 armm.setPower(0.75);
-             }
-             else if (armm.getCurrentPosition() > (armm.getTargetPosition() + 5)){
-                 armm.setPower(-1);
-             }
-             else{
-                 armm.setPower(0);
-             }    
-             while (opModeIsActive() && (armm.isBusy())){
-             }    
-
-
              // reset the timeout time and start motion.
              //runtime.reset();
              //leftDrive.setPower(Math.abs(speed));
              //rightDrive.setPower(Math.abs(speed));
+             
+             frontL.setPower(45);
+             frontR.setPower(45);
+             backL.setPower(45);
+             backR.setPower(45);
+             sleep(500);
+             frontL.setPower(0);
+             frontR.setPower(0);
+             backL.setPower(0);
+             backR.setPower(0);
+
+
  
              // keep looping while we are still active, and there is time left, and both motors are running.
              // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

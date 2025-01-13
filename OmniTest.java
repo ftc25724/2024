@@ -164,14 +164,14 @@ public class OmniTest extends LinearOpMode {
             }
             
             if (armm.getCurrentPosition() <= -7610) {
-                slidermax = -5494;
+                slidermax = -6400;
             }
             else if (armm.getCurrentPosition() > -7610) {
                 slidermax = -5210;
             }
             
             if (lifty.getCurrentPosition() > 10) {
-                armmax = -9300;
+                armmax = -9325;
             }
             else if (lifty.getCurrentPosition() <= 10) {
                 armmax = -7610;
